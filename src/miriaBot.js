@@ -7,7 +7,7 @@ function doPost(e) {
   var trigger_word0 = /^ママーーー！$/;
   var trigger_word = /^@mmm\s(\S+)\s((?:\s|\S)+)$/;
   
-  var func = ["cmd", "trans", "wiki"];
+  var func = ["cmd", "trans", "cod", "wiki"];
   var text, user, message;
   var mama = {};
 
@@ -74,6 +74,44 @@ function doPost(e) {
     return message;
   }
   
+  /*
+  みりあがcodicで調べるよ！
+  */
+  mama.cod = function(args) {
+   var codRegexep = /^ *-([cCsShf]+)\s*((?:\s|\S)+)$/,
+        casingMap = {
+          "c" : "camel" ,
+          "C" : "pascal",
+          "s" : "lower underscore",
+          "S" : "upper underscore",
+          "h" : "hyphen"};
+ 
+    var afterArgs = codRegexep.exec(args) || [2];
+    var option = afterArgs[1] || "s";
+    var target = afterArgs[2] || args;
+    
+    option = option.replace(/f/g, "");
+
+    var token = PropertiesService.getScriptProperties().getProperty('CODIC_TOKEN');
+    var formData = {
+     'text': target,
+     'casing' : casingMap[option]
+    };
+
+    var apiUrl = 'https://api.codic.jp',
+        extUrl = '/v1/engine/translate.json',
+        headers = {Authorization : 'Bearer ' + token , charset : 'UTF-8'},
+        params ={method : 'post', headers: headers , payload : formData};
+
+    var res = UrlFetchApp.fetch(apiUrl + extUrl , params);
+    var job = JSON.parse(res)[0];
+
+    var message = "*" + target  + "* は ";
+    message += "```" + job.translated_text + "``` って言うらしいですよ :hushed:";
+
+    return message;
+  }
+
   /*
   みりあがwikiってあげる！
   */
