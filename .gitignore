@@ -1,0 +1,6 @@
+# Project ignore
+src/
+gapps.config.json
+
+# Dependency directories
+node_modules/
