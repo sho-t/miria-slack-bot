@@ -1,3 +1,5 @@
+var GasPlugin = require("gas-webpack-plugin");
+
 module.exports = {
   context: __dirname + '/lib',
   entry: './entry.js',
@@ -5,6 +7,9 @@ module.exports = {
     path: __dirname + '/src',
     filename: 'miriaBot.js',
   },
+  plugins: [
+    new GasPlugin(),
+  ],
   module: {
     loaders: [
       {
