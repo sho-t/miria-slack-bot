@@ -4,7 +4,7 @@ module.exports = {
         "sourceType": "module",
         "ecmaVersion": 6,
         "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
+          "experimentalObjectRestSpread": true
         }
     },
     "plugins": [ "googleappsscript" ],
